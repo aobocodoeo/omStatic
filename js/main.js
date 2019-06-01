@@ -5,9 +5,9 @@ $(document).ready(function () {
         threshold: 200,
         failurelimit: 5 // 发生混乱时的hack手段
     });
-    var EXPIRE_DAYS = 2;
+    var EXPIRE_DAYS = 1;
     var KEY = 'dialog';
-    var VALUE = 'wechat4';
+    var VALUE = 'wechat';
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -29,13 +29,16 @@ $(document).ready(function () {
             }
         }
         return "";
-    }
-    if (getCookie(KEY) == VALUE) {
-        // $('.pile-dialog-wrap').addClass('dialog-show');
-        // alert('不是一次访问');
-    } else {
-        $('.pile-dialog-wrap').addClass('dialog-show');
-        setCookie(KEY, VALUE, EXPIRE_DAYS);
+    };
+    //  注入灵魂
+    if(document.location.pathname.includes("detail")){
+        if (getCookie(KEY) == VALUE) {
+            // $('.pile-dialog-wrap').addClass('dialog-show');
+            // alert('不是一次访问');
+        } else {
+            $('.pile-dialog-wrap').addClass('dialog-show');
+            setCookie(KEY, VALUE, EXPIRE_DAYS);
+        }
     }
     // 关闭 dialog
     $(function(){
@@ -63,18 +66,20 @@ $(document).ready(function () {
             var text = config['weixin_nav'];
             var addHtml = `<textarea id="a1" style="position:absolute;top:-9999px;left:-9999px;" readonly>${text}</textarea>`;
             $('body').append(addHtml);
-    		var copyDOM = document.querySelectorAll('#a1');
-            var range = document.createRange();  
-            range.selectNode(copyDOM[0]);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand('copy');
-            // var loading = weui.loading('加载中', {});
-            // setTimeout(function() {
-            //     loading.hide(function() {
-            //         // weui.toast('加载成功', 500);
-            //     });
-            // }, 1000);
+            if(UA.iOS){
+                var copyDOM = document.querySelectorAll('#a1');
+                var range = document.createRange();  
+                range.selectNode(copyDOM[0]);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                console.log(123);
+            }else{
+                $("#a1").select();
+                document.execCommand("copy",false,null);
+                console.log(456);
+            }
+    
         })
     });
     // 滑动组件-平缓
@@ -179,14 +184,6 @@ $(document).ready(function () {
         $(this).addClass('active')
         swiperList.slideTo($(this).index())
     });
-    // ios注入返回
-    window.addEventListener('pageshow', function (e) {
-        // 通过persisted属性判断是否存在 BF Cache
-        if (e.persisted) {
-            location.reload();
-        }
-    });
-
     //开关
     if (config['detail_ads'] == "1") {
         $('#adDetail').css("display", "block");
