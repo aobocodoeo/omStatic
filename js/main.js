@@ -33,8 +33,7 @@ $(document).ready(function () {
     //  注入灵魂
     if(document.location.pathname.includes("detail")){
         if (getCookie(KEY) == VALUE) {
-            // $('.pile-dialog-wrap').addClass('dialog-show');
-            // alert('不是一次访问');
+            
         } else {
             $('.pile-dialog-wrap').addClass('dialog-show');
             setCookie(KEY, VALUE, EXPIRE_DAYS);
@@ -73,11 +72,9 @@ $(document).ready(function () {
                 window.getSelection().removeAllRanges();
                 window.getSelection().addRange(range);
                 document.execCommand('copy');
-                console.log(123);
             }else{
                 $("#a1").select();
                 document.execCommand("copy",false,null);
-                console.log(456);
             }
     
         })
