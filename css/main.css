@@ -391,12 +391,15 @@ a{
     padding: 0 .7rem;
     box-sizing: border-box;
     z-index: 999;
+    height: 8.5rem;
+    overflow: hidden;
+    border-radius: .3rem;
 }
 .movie-items--flex .movie-content .cover img{
     display: block;
     width: 100%;
     height: auto;
-    border-radius: .3rem;
+    /* border-radius: .3rem; */
   
 }
 .movie-items--flex .movie-content .info{
