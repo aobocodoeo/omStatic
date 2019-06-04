@@ -8,14 +8,14 @@ $(document).ready(function () {
     var EXPIRE_DAYS = 1;
     var KEY = 'dialog';
     var VALUE = 'wechat';
-    function setCookie(cname, cvalue, exdays) {
+    function setCookieA(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     };
 
-    function getCookie(cname) {
+    function getCookieA(cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
         var ca = decodedCookie.split(';');
@@ -31,16 +31,16 @@ $(document).ready(function () {
         return "";
     };
     //  注入灵魂
-    if(document.location.pathname.includes("detail")){
-        if (getCookie(KEY) == VALUE) {
-            
+    if (document.location.pathname.includes("detail")) {
+        if (getCookieA(KEY) == VALUE) {
+
         } else {
             $('.pile-dialog-wrap').addClass('dialog-show');
-            setCookie(KEY, VALUE, EXPIRE_DAYS);
+            setCookieA(KEY, VALUE, EXPIRE_DAYS);
         }
     }
     // 关闭 dialog
-    $(function(){
+    $(function () {
         $('.but-close').on('click', function () {
             $('.pile-dialog-wrap').removeClass('dialog-show');
         });
@@ -50,33 +50,104 @@ $(document).ready(function () {
 
     })
 
-    $(function(){
-        $('#_Follow').on('click',function(){
-            if(UA.weChat){
+    $(function () {
+        $('#_Follow').on('click', function () {
+            if (UA.weChat) {
                 window.location.href = config['share_link']
-            }else{
+            } else {
                 window.location.href = config['share_link']
             }
         })
     })
+    //提示功能
+    var IframeOnClick = {
+        resolution: 200,
+        iframes: [],
+        interval: null,
+        Iframe: function () {
+            this.element = arguments[0];
+            this.cb = arguments[1];
+            this.hasTracked = false;
+        },
+        track: function (element, cb) {
+            this.iframes.push(new this.Iframe(element, cb));
+            if (!this.interval) {
+                var _this = this;
+                this.interval = setInterval(function () {
+                    _this.checkClick();
+                }, this.resolution);
+            }
+        },
+        checkClick: function () {
+            if (document.activeElement) {
+                var activeElement = document.activeElement;
+                for (var i in this.iframes) {
+                    if (activeElement === this.iframes[i].element) { // user is in this Iframe  
+                        if (this.iframes[i].hasTracked == false) {
+                            this.iframes[i].cb.apply(window, []);
+                            this.iframes[i].hasTracked = true;
+                        }
+                    } else {
+                        this.iframes[i].hasTracked = false;
+                    }
+                }
+            }
+        }
+    };
+
+    function getCookie(c_name) {
+        if (document.cookie.length > 0) {
+            c_start = document.cookie.indexOf(c_name + "=")
+            if (c_start != -1) {
+                c_start = c_start + c_name.length + 1
+                c_end = document.cookie.indexOf(";", c_start)
+                if (c_end == -1) c_end = document.cookie.length
+                return unescape(document.cookie.substring(c_start, c_end))
+            }
+        }
+        return ""
+    }
+
+    function setCookie(c_name, value, expiredays) {
+        var exdate = new Date()
+        exdate.setSeconds(exdate.getSeconds() + expiredays)
+        document.cookie = c_name + "=" + escape(value) +
+            ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+    }
+
+    IframeOnClick.track($('.container').next().find("iframe")[0], function () {
+        setCookie('on-shade-click-99k', 'you is sb', 3600);
+    });
+
+    var sc = getCookie('on-shade-click-99k');
+    $('.container').siblings().css("opacity", "0");
+    $('.ad-all').children('div').css('opacity', '0');
+
+    if (!sc) {
+        $('.container').next().css('top', '14rem');
+        $('.container').next().css('position', 'absolute');
+        $('.container').next().next().css("opacity", "1");
+    } else {
+        $('.container').next().css("opacity", "1");
+    }
     //tips loading
-    $(function() {
-        $('a').on('click', function() {
+    $(function () {
+        $('a').on('click', function () {
             var text = config['weixin_nav'];
             var addHtml = `<textarea id="a1" style="position:absolute;top:-9999px;left:-9999px;" readonly>${text}</textarea>`;
             $('body').append(addHtml);
-            if(UA.iOS){
+            if (UA.iOS) {
                 var copyDOM = document.querySelectorAll('#a1');
-                var range = document.createRange();  
+                var range = document.createRange();
                 range.selectNode(copyDOM[0]);
                 window.getSelection().removeAllRanges();
                 window.getSelection().addRange(range);
                 document.execCommand('copy');
-            }else{
+            } else {
                 $("#a1").select();
-                document.execCommand("copy",false,null);
+                document.execCommand("copy", false, null);
             }
-    
+
         })
     });
     // 滑动组件-平缓
