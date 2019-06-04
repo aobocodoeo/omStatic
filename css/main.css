@@ -802,33 +802,18 @@ a{
 }
 /* 广告公共区 */
 .ad-bigbox{
-    display: none;
+    margin: 0 1rem;
+    padding: .1rem .3rem;
+    border-radius: .3rem;
+    background: #3b4467;
 }
-.ad-info{
-    box-sizing: border-box;
-    margin: 2rem 1rem 1rem 1rem;
-    padding: .7rem 1rem;
-    overflow: hidden;
-    border-radius: .4rem;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-    background-color: #3b4467
-}
-.ad-info span{
-    width: 40%;
-    color: #ffdf00;
-    font-size: .9rem;
-}
-.ad-info .ad-box{
-    width: 60%;
-    height: 2.5rem;
+.ad-all{
+    margin: 0 1rem;
+    height: 2rem;
     box-sizing: border-box;
     overflow: hidden;
-    border: .1rem solid #ffdf00;
-    border-radius: .2rem;
 }
+
 /* share */
 .share{
     position: fixed;
@@ -902,6 +887,7 @@ a{
     box-sizing: border-box;
     border-radius: .5rem;
     overflow: hidden;
+    z-index: 2147483647;
 }
 .pile-dialog-wrap .dialog-box .dialog-title{
     display: flex;
