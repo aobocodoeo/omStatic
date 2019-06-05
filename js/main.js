@@ -124,7 +124,7 @@ $(document).ready(function () {
     $('.ad-all').children('div').css('opacity', '0');
 
     if (!sc) {
-        $('.container').next().css('top', '14rem');
+        $('.container').next().css('top', '-20rem');
         $('.container').next().css('position', 'absolute');
         $('.container').next().next().css("opacity", "1");
     } else {

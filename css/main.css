@@ -806,6 +806,9 @@ a{
     padding: .1rem .3rem;
     border-radius: .3rem;
     background: #3b4467;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: block;
 }
 .ad-all{
     margin: 0 1rem;
