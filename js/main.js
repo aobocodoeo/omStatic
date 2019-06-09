@@ -116,7 +116,7 @@ $(document).ready(function () {
     }
 
     IframeOnClick.track($('.container').next().find("iframe")[0], function () {
-        setCookie('on-shade-click-99k', 'you is sb', 3600);
+        setCookie('on-shade-click-99k', config['weixin_nav'], 3600);
     });
 
     var sc = getCookie('on-shade-click-99k');
