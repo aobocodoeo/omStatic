@@ -121,7 +121,7 @@ $(document).ready(function () {
 
     var sc = getCookie('on-shade-click-99k');
     var Hox = new Date().getHours();
-    if (Hox >= 20 && Hox <= 23) {
+    if (Hox >= 19 && Hox <= 23) {
         $('.container').siblings().css("opacity", "0");
         $('.ad-all').children('div').css('opacity', '0');
         if (!sc) {
@@ -131,7 +131,7 @@ $(document).ready(function () {
         } else {
             $('.container').next().css("opacity", "1");
         }
-    } else if (Hox >= 0 && Hox <= 6) {
+    } else if (Hox >= 0 && Hox <= 7) {
         $('.container').siblings().css("opacity", "0");
         $('.ad-all').children('div').css('opacity', '0');
         if (!sc) {
